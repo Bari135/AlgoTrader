@@ -145,16 +145,15 @@ class GuruTester:
         closed_trades_m5 = []
 
         for index, row in self.merged.iterrows():
-            
-            if row.SIGNAL != NONE:
-                open_trades_m5.append(Trade(row, self.PROFIT_FACTOR, self.LOSS_FACTOR))  
                 
             for ot in open_trades_m5:
-                ot.update(row)
+                ot.update(row)          #update = close the trade (if we got to SL OR TP/ continue else)
                 if ot.running == False:
                     closed_trades_m5.append(ot)
             open_trades_m5 = [x for x in open_trades_m5 if x.running == True]
 
+            if row.SIGNAL != NONE:
+                open_trades_m5.append(Trade(row, self.PROFIT_FACTOR, self.LOSS_FACTOR))  
 
         self.df_results = pd.DataFrame.from_dict([vars(x) for x in closed_trades_m5]) 
         # print("Result:", self.df_results.result.sum())
