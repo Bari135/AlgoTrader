@@ -1,8 +1,11 @@
 import requests
 import pandas as pd
+import json
 import constants.defs as defs #ממש התיקייה והקובץ בתוך
+
 from dateutil import parser 
 from datetime import datetime as dt 
+from infrastructure.instrument_collection import instrumentCollection as ic
 
 class OandaApi:
 
@@ -16,10 +19,21 @@ class OandaApi:
     def make_request(self, url, verb = 'get', code=200,
                     params=None, data=None, headers=None):
         full_url = f"{defs.OANDA_URL}/{url}"
+
+        if data is not None:
+            data = json.dumps(data)
+
         try:
             response = None
             if verb == "get":
                 response = self.session.get(full_url, params=params,
+                                        data=data, headers=headers)
+            if verb == "post":
+                response = self.session.post(full_url, params=params,
+                                        data=data, headers=headers)
+            
+            if verb == "put":
+                response = self.session.put(full_url, params=params,
                                         data=data, headers=headers)
             
             if response == None:
@@ -101,3 +115,49 @@ class OandaApi:
             final_data.append(new_dict)
         df = pd.DataFrame.from_dict(final_data)  
         return df
+    
+    def place_trade(self, pair_name: str, units: float, direction: int,
+    stop_loss: float=None, take_profit: float=None):
+        url = f"accounts/{defs.ACCOUNT_ID}/orders"
+
+        instrument = ic.instrument_dict[pair_name]
+        units = round(units, instrument.tradeUnitsPrecision)
+
+        if direction == defs.SELL:
+            units = units * -1
+
+        data = dict(
+            order = dict(
+                units= str(units),
+                instrument= pair_name,
+                type= "MARKET"
+            )
+        )
+
+        if stop_loss is not None:
+            sld = dict(
+                price=str(round(stop_loss, instrument.displayPrecision)))
+            data['order']['stopLossOnFill'] = sld
+        if take_profit is not None:
+            tpd = dict(
+                price=str(round(take_profit, instrument.displayPrecision)))
+            data['order']['takeProfitOnFill'] = tpd
+
+    
+        ok, response = self.make_request(url, verb="post", data=data, code=201)
+
+        if ok and 'orderFillTransaction' in response:
+           return response['orderFillTransaction']['id']
+        else:
+            return None
+
+    def close_trade(self, trade_id):
+        url = f"accounts/{defs.ACCOUNT_ID}/trades/{trade_id}/close"
+        ok, _ = self.make_request(url, verb = "put", code=200)
+
+        if ok:
+            print(f"Closed {trade_id} successfully")
+        else:
+            print(f"Failed to clode trade: {trade_id}")
+
+        return ok
