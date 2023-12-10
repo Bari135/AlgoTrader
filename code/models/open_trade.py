@@ -6,7 +6,7 @@ class openTrade:
         self.id = api_ob['id']
         self.instrument = api_ob['instrument']
         self.price = float(api_ob['price'])
-        self.api_ob = float(api_ob['api_ob'])
+        self.currentUnits = float(api_ob['currentUnits'])
         self.unrealizedPL = float(api_ob['unrealizedPL'])
         self.marginUsed = float(api_ob['marginUsed'])
     

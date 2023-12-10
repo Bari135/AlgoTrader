@@ -1,0 +1,3 @@
+2023-12-09 09:21:01 LogWrapper init() ./logs/EUR_GBP.log
+2023-12-09 09:21:01 {'n_ma': 12, 'n_std': 2.5, 'maxspread': 0.0004, 'mingain': 0.014, 'riskreward': 1.5}
+2023-12-09 09:21:03 CandleManager() init last_candle:last candle: 23-12-08 21:55 is ready:False
