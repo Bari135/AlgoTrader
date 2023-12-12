@@ -3,6 +3,7 @@ import pandas as pd
 import json
 import constants.defs as defs #ממש התיקייה והקובץ בתוך
 
+from models.api_price import ApiPrice
 from dateutil import parser 
 from datetime import datetime as dt 
 from infrastructure.instrument_collection import instrumentCollection as ic
@@ -183,3 +184,16 @@ class OandaApi:
 
         if ok and 'trades' in response:
             return [openTrade(x) for x in response['trades']]
+        
+    def get_prices(self, instrument_list):
+        url = f"accounts/{defs.ACCOUNT_ID}/pricing"
+        
+        params = dict(
+            instruments = ','.join(instrument_list)
+        )
+        
+        ok, response = self.make_request(url, params=params)
+
+        if ok and 'prices' in response:
+            return [ApiPrice(x) for x in response['prices']]
+        return None

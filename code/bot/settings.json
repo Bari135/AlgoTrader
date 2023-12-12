@@ -1,38 +1,40 @@
 {
-    "GBP_CHF": {
+    "trade_risk": 20,
+    "pairs": {
+        "GBP_CHF": {
         "n_ma": 12,
         "n_std": 2.5,
         "maxspread": 0.0004,
-        "mingain": 0.014,
+        "mingain": 0.0014,
         "riskreward": 1.5
-    },
-    "EUR_CHF": {
-        "n_ma": 12,
-        "n_std": 2.5,
-        "maxspread": 0.0004,
-        "mingain": 0.014,
-        "riskreward": 1.5
-    },
-    "GBP_JPY": {
-        "n_ma": 12,
-        "n_std": 2.5,
-        "maxspread": 0.0004,
-        "mingain": 0.14,
-        "riskreward": 1.5
-    },
-    "GBP_USD": {
-        "n_ma": 12,
-        "n_std": 2.5,
-        "maxspread": 0.0004,
-        "mingain": 0.014,
-        "riskreward": 1.5
-    },
-    "EUR_GBP": {
-        "n_ma": 12,
-        "n_std": 2.5,
-        "maxspread": 0.0004,
-        "mingain": 0.014,
-        "riskreward": 1.5
+        },
+        "EUR_CHF": {
+            "n_ma": 12,
+            "n_std": 2.5,
+            "maxspread": 0.0004,
+            "mingain": 0.0014,
+            "riskreward": 1.5
+        },
+        "GBP_JPY": {
+            "n_ma": 12,
+            "n_std": 2.5,
+            "maxspread": 0.0004,
+            "mingain": 0.14,
+            "riskreward": 1.5
+        },
+        "GBP_USD": {
+            "n_ma": 12,
+            "n_std": 2.5,
+            "maxspread": 0.0004,
+            "mingain": 0.0014,
+            "riskreward": 1.5
+        },
+        "EUR_GBP": {
+            "n_ma": 12,
+            "n_std": 2.5,
+            "maxspread": 0.0004,
+            "mingain": 0.0014,
+            "riskreward": 1.5
+        }
     }
-    
 }
